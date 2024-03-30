@@ -7,9 +7,9 @@ public class RandomizedAudioSource : MonoBehaviour
 
     public string file1;
 
-    private vector<string> mFilenames;
+    private List<string> mFilenames;
 
-    private vector<int> mOrder;
+    private List<int> mOrder;
     private int mLastInt;
 
     // Start is called before the first frame update
@@ -27,10 +27,10 @@ public class RandomizedAudioSource : MonoBehaviour
     //
     int GetRandomNonRepeatingInt()
     {
-        int retVal = Random.Range(0, mFilenames.Length);
+        int retVal = Random.Range(0, mFilenames.Count);
         while (retVal == mLastInt)
         {
-            retVal = Random.Range(0, mFilenames.Length);
+            retVal = Random.Range(0, mFilenames.Count);
         }
         mLastInt = retVal;
         return retVal;
