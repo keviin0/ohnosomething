@@ -1,16 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//using UnityEngine.AudioModule;
 
 public class RandomizedAudioSource : MonoBehaviour
 {
 
-    public string file1;
+    public List<AudioClip> audioClips;
 
-    private List<string> mFilenames;
-
-    private List<int> mOrder;
-    private int mLastInt;
+    private int mLastInt = 300;//arbitrary high value
 
     // Start is called before the first frame update
     void Start()
@@ -24,13 +22,18 @@ public class RandomizedAudioSource : MonoBehaviour
 
     }
 
-    //
-    int GetRandomNonRepeatingInt()
+    void PlayRandomClip()
     {
-        int retVal = Random.Range(0, mFilenames.Count);
+        AudioManager.instance.PlaySound(audioClips[mLastInt]);
+    }
+
+    //
+    private int GetRandomNonRepeatingInt()
+    {
+        int retVal = Random.Range(0, audioClips.Count);
         while (retVal == mLastInt)
         {
-            retVal = Random.Range(0, mFilenames.Count);
+            retVal = Random.Range(0, audioClips.Count);
         }
         mLastInt = retVal;
         return retVal;
