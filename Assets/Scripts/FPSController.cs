@@ -40,8 +40,11 @@ public class FPSController : MonoBehaviour
         bool isRunning = Input.GetKey(KeyCode.LeftShift);
         float curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
         float curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
+        Vector3 newMovementVec = new Vector3(curSpeedX, curSpeedY, 0.0f);
+        newMovementVec.Normalize();
+        newMovementVec *= (isRunning ? runSpeed : walkSpeed);
         float movementDirectionY = moveDirection.y;
-        moveDirection = (forward * curSpeedX) + (right * curSpeedY);
+        moveDirection = (forward * newMovementVec.x) + (right * newMovementVec.y);
  
         #endregion
  
