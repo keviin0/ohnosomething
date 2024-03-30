@@ -5,12 +5,17 @@ using UnityEngine;
 public class SurgeryPuzzleManager : MonoBehaviour
 {
     public GameObject[] afterImageRefs;
+    public GameObject[] beforeImageRefs;
     private Vector2[] positionArray;
     private int numPieces;
     private Vector3 mouseOffset;
     Dictionary<string, Sprite> spriteDict = new Dictionary<string, Sprite>();
     Dictionary<string, int> imageDict = new Dictionary<string, int>();
     private Transform draggingPiece = null;
+    private int piecesCorrect = 0;
+    private bool complete = false;
+    InventoryManager inventoryManager = null;
+    private List<ItemClass> inventory;
 
     private void SetRefPointsPosition()
     {
@@ -19,7 +24,6 @@ public class SurgeryPuzzleManager : MonoBehaviour
         for(int i = 0; i < numPieces; i++)
         {
             positionArray[i] = afterImageRefs[i].transform.position;
-            Debug.Log(afterImageRefs[i].transform.position);
         }
     }
     private void SetRefSprite()
@@ -54,6 +58,8 @@ public class SurgeryPuzzleManager : MonoBehaviour
         SetRefPointsPosition();
         SetRefSprite();
         AddtoDict();
+        inventory = GameObject.Find("PlayerInventory").GetComponent<InventoryManager>().GetInventory();
+        PopulateInventory();
     }
 
     // Update is called once per frame
@@ -62,7 +68,6 @@ public class SurgeryPuzzleManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Collider2D hit = Physics2D.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition), LayerMask.GetMask("Puzzle"));
-            Debug.Log(hit.tag);
             if (hit && hit.tag == "PuzzlePiece")
             {
                 draggingPiece = hit.transform;
@@ -70,12 +75,55 @@ public class SurgeryPuzzleManager : MonoBehaviour
             }
         }
 
+        if (draggingPiece && Input.GetMouseButtonUp(0))
+        {
+            var pos = Camera.main.WorldToScreenPoint(draggingPiece.position);
+            pos.x = Mathf.Clamp(pos.x, 0, Screen.width);
+            pos.y = Mathf.Clamp(pos.y, 0, Screen.height);
+            draggingPiece.position = Camera.main.ScreenToWorldPoint(pos);
+            SnapAndDisable();
+            draggingPiece.GetComponent<SpriteRenderer>().sortingOrder = 2;
+            draggingPiece = null;
+        }
+
         if (draggingPiece)
         {
             Vector3 newPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             newPosition += mouseOffset;
             draggingPiece.position = newPosition;
-            draggingPiece.GetComponent<SpriteRenderer>().sortingOrder = 2;
+            draggingPiece.GetComponent<SpriteRenderer>().sortingOrder = 5;
+        }
+    }
+
+    private void SnapAndDisable()
+    {
+        Sprite img = draggingPiece.gameObject.GetComponent<SpriteRenderer>().sprite;
+        Debug.Log(img.name);
+        Vector2 pos = positionArray[imageDict[img.name]];
+        if (Vector2.Distance(draggingPiece.position, pos) < 1)
+        {
+            beforeImageRefs[imageDict[img.name]].active = false;
+            Vector3 pos3D = new Vector3(pos.x, pos.y, 0);
+            draggingPiece.position = pos3D;
+            draggingPiece.GetComponent<PolygonCollider2D>().enabled = false;
+            piecesCorrect++;
+            if(piecesCorrect == numPieces)
+            {
+                complete = true;
+            }
+        }
+    }
+
+    private void PopulateInventory()
+    {
+        GameObject inventoryBar = GameObject.Find("InventoryBar");
+        foreach (ItemClass item in inventory)
+        {
+            Transform itemGameObject = inventoryBar.transform.Find(item.itemName);
+            if (itemGameObject != null)
+            {
+                itemGameObject.gameObject.SetActive(true);
+            }
         }
     }
 }
