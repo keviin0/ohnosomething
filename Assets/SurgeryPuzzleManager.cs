@@ -5,6 +5,7 @@ using UnityEngine;
 public class SurgeryPuzzleManager : MonoBehaviour
 {
     public GameObject[] afterImageRefs;
+    public GameObject[] beforeImageRefs;
     private Vector2[] positionArray;
     private int numPieces;
     private Vector3 mouseOffset;
@@ -14,7 +15,7 @@ public class SurgeryPuzzleManager : MonoBehaviour
     private int piecesCorrect = 0;
     private bool complete = false;
     InventoryManager inventoryManager = null;
-    public List<ItemClass> inventory;
+    private List<ItemClass> inventory;
 
     private void SetRefPointsPosition()
     {
@@ -81,7 +82,7 @@ public class SurgeryPuzzleManager : MonoBehaviour
             pos.y = Mathf.Clamp(pos.y, 0, Screen.height);
             draggingPiece.position = Camera.main.ScreenToWorldPoint(pos);
             SnapAndDisable();
-            Debug.Log(draggingPiece.position);
+            draggingPiece.GetComponent<SpriteRenderer>().sortingOrder = 2;
             draggingPiece = null;
         }
 
@@ -90,16 +91,18 @@ public class SurgeryPuzzleManager : MonoBehaviour
             Vector3 newPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             newPosition += mouseOffset;
             draggingPiece.position = newPosition;
-            draggingPiece.GetComponent<SpriteRenderer>().sortingOrder = 2;
+            draggingPiece.GetComponent<SpriteRenderer>().sortingOrder = 5;
         }
     }
 
     private void SnapAndDisable()
     {
         Sprite img = draggingPiece.gameObject.GetComponent<SpriteRenderer>().sprite;
+        Debug.Log(img.name);
         Vector2 pos = positionArray[imageDict[img.name]];
         if (Vector2.Distance(draggingPiece.position, pos) < 1)
         {
+            beforeImageRefs[imageDict[img.name]].active = false;
             Vector3 pos3D = new Vector3(pos.x, pos.y, 0);
             draggingPiece.position = pos3D;
             draggingPiece.GetComponent<PolygonCollider2D>().enabled = false;
