@@ -15,4 +15,17 @@ public class InventoryManager : MonoBehaviour
     {
         return items;
     }
+
+    public void AddToInventory(ItemClass itemToAdd)
+    {
+        items.Add(itemToAdd);
+    }
+
+    public void RemoveFromInventory(ItemClass itemToRemove)
+    {
+        if (items.Contains(itemToRemove))
+        {
+            items.Remove(itemToRemove);
+        }
+    }
 }
