@@ -5,15 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class RaycastInteract : MonoBehaviour
 {
-    public float interactionDistance = 10f; 
+    public float interactionDistance = 10f;
     public Camera playerCamera;
     private InventoryManager inventoryManager;
     private LevelManager levelManager;
+    private AudioManager audioManager;
+    public AudioClip pickupSound;
 
     void Start()
     {
         inventoryManager = FindObjectOfType<InventoryManager>();
         levelManager = FindObjectOfType<LevelManager>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     void Update()
@@ -26,7 +29,8 @@ public class RaycastInteract : MonoBehaviour
                 if (hit.collider.CompareTag("Interactable"))
                 {
                     Debug.Log(hit.collider.name);
-                    switch(hit.collider.name)
+                    audioManager.PlaySound(pickupSound);
+                    switch (hit.collider.name)
                     {
                         case "Knife":
                             break;
