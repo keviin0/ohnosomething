@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class SurgeryPuzzleManager : MonoBehaviour
 {
@@ -55,6 +57,8 @@ public class SurgeryPuzzleManager : MonoBehaviour
 
     void Start()
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         SetRefPointsPosition();
         SetRefSprite();
         AddtoDict();
@@ -65,6 +69,12 @@ public class SurgeryPuzzleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            UnityEngine.SceneManagement.SceneManager.LoadScene("3DScene");
+        }
         if (Input.GetMouseButtonDown(0))
         {
             Collider2D hit = Physics2D.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition), LayerMask.GetMask("Puzzle"));

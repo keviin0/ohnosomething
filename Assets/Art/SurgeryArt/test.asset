@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 126d68a6708bfee46adc988a09f18a3a, type: 3}
-  m_Name: Balloons
+  m_Name: test
   m_EditorClassIdentifier: 
   itemName: Balloons
   sprite: {fileID: 21300000, guid: 9eb5b6c2010e12046bb5379a6fb3ff3f, type: 3}
