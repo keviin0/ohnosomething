@@ -42,4 +42,16 @@ public class InventoryManager : MonoBehaviour
         item.sprite = Resources.Load<Sprite>("Assets/Art/SurgeryArt/balls");
         items.Add(item);
     }
+    public void AddToInventory(ItemClass itemToAdd)
+    {
+        items.Add(itemToAdd);
+    }
+
+    public void RemoveFromInventory(ItemClass itemToRemove)
+    {
+        if (items.Contains(itemToRemove))
+        {
+            items.Remove(itemToRemove);
+        }
+    }
 }
