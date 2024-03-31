@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
- 
+
 [RequireComponent(typeof(CharacterController))]
 public class FPSController : MonoBehaviour
 {
@@ -10,18 +10,19 @@ public class FPSController : MonoBehaviour
     public float runSpeed = 12f;
     public float jumpPower = 7f;
     public float gravity = 10f;
- 
- 
+
+
     public float lookSpeed = 2f;
     public float lookXLimit = 45f;
- 
- 
+    public bool isRunning = false;
+
+
     Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
- 
+
     public bool canMove = true;
- 
-    
+
+
     CharacterController characterController;
     void Start()
     {
@@ -29,15 +30,15 @@ public class FPSController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
- 
+
     void Update()
     {
- 
+
         #region Handles Movment
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
- 
-        bool isRunning = Input.GetKey(KeyCode.LeftShift);
+
+        isRunning = Input.GetKey(KeyCode.LeftShift);
         float curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
         float curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
         Vector3 newMovementVec = new Vector3(curSpeedX, curSpeedY, 0.0f);
@@ -45,9 +46,9 @@ public class FPSController : MonoBehaviour
         newMovementVec *= (isRunning ? runSpeed : walkSpeed);
         float movementDirectionY = moveDirection.y;
         moveDirection = (forward * newMovementVec.x) + (right * newMovementVec.y);
- 
+
         #endregion
- 
+
         #region Handles Jumping
         if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
         {
@@ -57,17 +58,17 @@ public class FPSController : MonoBehaviour
         {
             moveDirection.y = movementDirectionY;
         }
- 
+
         if (!characterController.isGrounded)
         {
             moveDirection.y -= gravity * Time.deltaTime;
         }
- 
+
         #endregion
- 
+
         #region Handles Rotation
         characterController.Move(moveDirection * Time.deltaTime);
- 
+
         if (canMove)
         {
             rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
@@ -75,7 +76,7 @@ public class FPSController : MonoBehaviour
             playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
- 
+
         #endregion
     }
 }
