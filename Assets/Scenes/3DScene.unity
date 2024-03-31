@@ -2026,6 +2026,7 @@ MonoBehaviour:
   gravity: 20
   lookSpeed: 2
   lookXLimit: 45
+  isRunning: 0
   canMove: 1
 --- !u!143 &1645117748
 CharacterController:
@@ -2068,7 +2069,7 @@ MonoBehaviour:
   footstepAudioSources: []
   characterController: {fileID: 0}
   minWalkSpeed: 0.1
-  footstepDelay: 0.3
+  footstepDelay: 0.4
   footstepClips:
   - {fileID: 8300000, guid: 94712ebaaa4c67c4bab1e6be91a50e35, type: 3}
   - {fileID: 8300000, guid: 59647acfbc0ca8b46a17e97832b7976f, type: 3}
@@ -2078,6 +2079,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ffcdcaee4435e3c4f9565fe899d95768, type: 3}
   - {fileID: 8300000, guid: b59a6deb67b867f4595a1bc91e0e8f33, type: 3}
   - {fileID: 8300000, guid: a36f2b7875bf88e4f8851d0adcff7cc7, type: 3}
+  fpsController: {fileID: 0}
 --- !u!82 &1645117750
 AudioSource:
   m_ObjectHideFlags: 0
