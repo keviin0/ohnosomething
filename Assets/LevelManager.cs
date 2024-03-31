@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -10,12 +11,28 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        DontDestroyOnLoad(this.gameObject);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (SceneManager.GetActiveScene().name == "3DScene")
+        {
+            if (flagsFound)
+            {
+                GameObject.Find("Flags").SetActive(false);
+            }
+            
+            if (balloonsFound)
+            {
+                GameObject.Find("Lungs").SetActive(false);
+            }
+
+            if (ballsFound)
+            {
+                GameObject.Find("Balls").SetActive(false);
+            }
+        }
     }
 }

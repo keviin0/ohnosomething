@@ -8,10 +8,12 @@ public class RaycastInteract : MonoBehaviour
     public float interactionDistance = 10f; 
     public Camera playerCamera;
     private InventoryManager inventoryManager;
+    private LevelManager levelManager;
 
     void Start()
     {
         inventoryManager = FindObjectOfType<InventoryManager>();
+        levelManager = FindObjectOfType<LevelManager>();
     }
 
     void Update()
@@ -30,15 +32,15 @@ public class RaycastInteract : MonoBehaviour
                             break;
                         case "Lungs":
                             inventoryManager.AddBalloon();
-                            GameObject.Find("Lungs").SetActive(false);
+                            levelManager.balloonsFound = true;
                             break;
                         case "Flags":
                             inventoryManager.AddFlags();
-                            GameObject.Find("Flags").SetActive(false);
+                            levelManager.flagsFound = true;
                             break;
                         case "Balls":
                             inventoryManager.AddBalls();
-                            GameObject.Find("Balls").SetActive(false);
+                            levelManager.ballsFound = true;
                             break;
                         case "Clown":
                             SceneManager.LoadScene("2DScene");
