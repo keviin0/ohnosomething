@@ -9,6 +9,7 @@ public class RaycastInteract : MonoBehaviour
     public Camera playerCamera;
     private InventoryManager inventoryManager;
     private LevelManager levelManager;
+    public GameObject warning;
 
     void Start()
     {
@@ -25,25 +26,33 @@ public class RaycastInteract : MonoBehaviour
             {
                 if (hit.collider.CompareTag("Interactable"))
                 {
-                    Debug.Log(hit.collider.name);
                     switch(hit.collider.name)
                     {
                         case "Knife":
                             break;
                         case "Lungs":
                             inventoryManager.AddBalloon();
+                            GameObject.Find("Lungs").SetActive(false);
                             levelManager.balloonsFound = true;
                             break;
                         case "Flags":
                             inventoryManager.AddFlags();
+                            GameObject.Find("Flags").SetActive(false);
                             levelManager.flagsFound = true;
                             break;
                         case "Balls":
                             inventoryManager.AddBalls();
+                            GameObject.Find("Balls").SetActive(false);
                             levelManager.ballsFound = true;
                             break;
                         case "Clown":
-                            SceneManager.LoadScene("2DScene");
+                            if (levelManager.allFound)
+                            {
+                                SceneManager.LoadScene("2DScene");
+                            }
+                            else {
+                                warning.SetActive(true);
+                            }
                             break;
                     }
                 }
