@@ -18,6 +18,7 @@ public class SurgeryPuzzleManager : MonoBehaviour
     private bool complete = false;
     InventoryManager inventoryManager = null;
     private List<ItemClass> inventory;
+    public GameObject temp;
 
     private void SetRefPointsPosition()
     {
@@ -120,6 +121,7 @@ public class SurgeryPuzzleManager : MonoBehaviour
             if(piecesCorrect == numPieces)
             {
                 complete = true;
+                temp.SetActive(true);
             }
         }
     }

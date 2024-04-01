@@ -29,7 +29,6 @@ public class RaycastInteract : MonoBehaviour
             {
                 if (hit.collider.CompareTag("Interactable"))
                 {
-                    audioManager.PlaySound(pickupSound);
                     switch (hit.collider.name)
                     {
                         case "Knife":
